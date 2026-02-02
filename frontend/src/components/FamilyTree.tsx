@@ -30,7 +30,7 @@ const CardWrapper: FC<CardWrapperProps> = ({ title = 'Family Tree', children }) 
 )
 
 const EmptyIcon: FC = () => (
-  <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <svg className="w-7 h-7 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -46,7 +46,7 @@ const SvgDefs: FC = () => (
       <path d="M 0 0 L 8 3 L 0 6 L 2 3 Z" fill="#94a3b8" />
     </marker>
     <marker id="arrow-active" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <path d="M 0 0 L 8 3 L 0 6 L 2 3 Z" fill="#334155" />
+      <path d="M 0 0 L 8 3 L 0 6 L 2 3 Z" fill="#475569" />
     </marker>
   </defs>
 )
@@ -61,12 +61,12 @@ const ConnectionPath: FC<ConnectionPathProps> = ({ line, active, dimmed }) => (
   <path
     d={getConnectionPath(line)}
     fill="none"
-    stroke={active ? '#334155' : '#94a3b8'}
-    strokeWidth={active ? 2 : 1.5}
+    stroke={active ? '#475569' : '#94a3b8'}
+    strokeWidth={active ? 2.5 : 1.5}
     strokeLinecap="round"
     strokeLinejoin="round"
     markerEnd={active ? 'url(#arrow-active)' : 'url(#arrow)'}
-    opacity={active ? 1 : dimmed ? 0.3 : 0.6}
+    opacity={active ? 1 : dimmed ? 0.3 : 0.7}
     className="transition-all duration-200"
   />
 )
@@ -136,9 +136,9 @@ const FamilyTree: FC = () => {
     return (
       <CardWrapper>
         <div className="animate-pulse flex justify-center gap-4">
-          <div className="w-28 h-20 bg-slate-100 rounded-lg" />
-          <div className="w-28 h-20 bg-slate-100 rounded-lg" />
-          <div className="w-28 h-20 bg-slate-100 rounded-lg" />
+          <div className="w-28 h-20 bg-slate-100 rounded-xl" />
+          <div className="w-28 h-20 bg-slate-100 rounded-xl" />
+          <div className="w-28 h-20 bg-slate-100 rounded-xl" />
         </div>
       </CardWrapper>
     )
@@ -155,12 +155,12 @@ const FamilyTree: FC = () => {
   if (people.length === 0) {
     return (
       <CardWrapper title="Family Tree">
-        <div className="text-center py-8">
-          <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3">
+        <div className="text-center py-10">
+          <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <EmptyIcon />
           </div>
-          <p className="text-sm text-slate-500">No people added yet</p>
-          <p className="text-xs text-slate-400 mt-1">Add someone using the form on the left</p>
+          <p className="text-sm text-slate-800 font-medium">Start your family tree</p>
+          <p className="text-xs text-slate-500 mt-1.5">Add the first person using the form</p>
         </div>
       </CardWrapper>
     )
@@ -172,7 +172,7 @@ const FamilyTree: FC = () => {
     <div className="card p-4 sm:p-5">
       <div className="flex items-center gap-3 mb-6">
         <h3 className="section-title">Family Tree</h3>
-        <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+        <span className="text-xs text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full font-medium">
           {people.length} {people.length === 1 ? 'person' : 'people'}
         </span>
       </div>

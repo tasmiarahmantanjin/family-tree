@@ -1,25 +1,20 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #f8fafc;
-  --foreground: #1e293b;
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use serif font for warmth */
+h1, h2, h3, .section-title {
+  font-family: var(--font-serif), Georgia, serif;
 }
 
 /* Form inputs */
 input[type='text'],
 input[type='date'],
 select {
-  color: #1e293b;
-  background-color: #ffffff;
-  /* Prevent zoom on mobile iOS */
   font-size: 16px;
 }
 
@@ -31,31 +26,23 @@ select {
   }
 }
 
-input[type='text']::placeholder {
-  color: #94a3b8;
-}
-
-/* Date input mobile fixes */
+/* Date input fixes */
 input[type='date'] {
   min-height: 44px;
-  /* Ensure calendar icon is visible */
   -webkit-appearance: none;
   appearance: none;
 }
 
-/* Ensure date picker icon is visible on all browsers */
 input[type='date']::-webkit-calendar-picker-indicator {
-  padding: 0;
-  margin: 0;
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
+  opacity: 0.8;
 }
 
-/* Mobile-specific form adjustments */
+/* Mobile form adjustments */
 @media (max-width: 639px) {
   input[type='text'],
   input[type='date'],
@@ -65,54 +52,36 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     padding-right: 12px;
   }
 
-  /* Ensure select dropdown arrow has space */
   select {
     padding-right: 32px;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     background-position: right 8px center;
     background-repeat: no-repeat;
     background-size: 20px 20px;
   }
 }
 
-/* Better focus states */
+/* Focus states */
 input:focus,
 select:focus {
   outline: none;
 }
 
-/* Smooth transitions - only on interactive elements */
-button,
-a,
-input,
-select,
-.transition-all {
-  transition-property:
-    background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+/* Transitions */
+button, a, input, select {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Remove transition from animate-pulse elements */
-.animate-pulse,
-.animate-pulse * {
+.animate-pulse, .animate-pulse * {
   transition: none;
 }
 
-/* Card component base styles */
+/* Card base */
 .card {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  max-width: 100%;
-  box-sizing: border-box;
+  @apply bg-white border border-slate-200 rounded-xl shadow-sm;
 }
 
-/* Section headers */
+/* Section title */
 .section-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #0f172a;
-  letter-spacing: -0.01em;
+  @apply text-base font-semibold text-slate-800 tracking-tight;
 }

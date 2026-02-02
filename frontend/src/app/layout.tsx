@@ -1,17 +1,19 @@
 import { FC, type ReactNode } from 'react'
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Source_Serif_4, DM_Sans } from 'next/font/google'
 import QueryProvider from '@/providers/QueryProvider'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const sourceSerif = Source_Serif_4({
+  variable: '--font-serif',
   subsets: ['latin'],
+  weight: ['400', '600', '700'],
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const dmSans = DM_Sans({
+  variable: '--font-sans',
   subsets: ['latin'],
+  weight: ['400', '500', '600'],
 })
 
 export const metadata: Metadata = {
@@ -26,7 +28,7 @@ interface RootLayoutProps {
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${sourceSerif.variable} ${dmSans.variable} antialiased`}>
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

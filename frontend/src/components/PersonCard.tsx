@@ -33,8 +33,8 @@ const PersonCard: FC<PersonCardProps> = ({
       className={clsx(
         'bg-white border-2 rounded-xl p-2 sm:p-3 w-30 sm:w-35 shrink-0 relative z-10 cursor-pointer transition-all duration-200 flex flex-col',
         active
-          ? 'border-slate-600 shadow-[0_8px_30px_rgb(0,0,0,0.12)] scale-105 ring-4 ring-slate-100'
-          : 'border-slate-100 shadow-sm hover:shadow-lg hover:border-slate-300 hover:scale-[1.02]',
+          ? 'border-slate-600 shadow-lg scale-105 ring-4 ring-slate-100'
+          : 'border-slate-200 shadow-sm hover:shadow-lg hover:border-slate-300 hover:scale-[1.02]',
       )}
     >
       <div className="flex-1 pb-2">

@@ -177,7 +177,7 @@ const RelationshipManager: FC = () => {
     return (
       <div className="card p-4 sm:p-5">
         <h3 className="section-title mb-2">Manage Relationships</h3>
-        <p className="text-xs text-slate-500">Add at least 2 people to manage relationships.</p>
+        <p className="text-xs text-slate-600">Add at least 2 people to manage relationships.</p>
       </div>
     )
   }

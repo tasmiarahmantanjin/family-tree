@@ -9,9 +9,9 @@ interface AlertProps {
 }
 
 const VARIANTS = {
-  success: 'bg-emerald-50 text-emerald-700 border-emerald-100',
-  error: 'bg-red-50 text-red-700 border-red-100',
-  warning: 'bg-amber-50 text-amber-700 border-amber-100',
+  success: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  error: 'bg-red-50 text-red-700 border-red-200',
+  warning: 'bg-amber-50 text-amber-700 border-amber-200',
 }
 
 const Alert: FC<AlertProps> = ({ variant, children, details, className }) => {
@@ -20,14 +20,14 @@ const Alert: FC<AlertProps> = ({ variant, children, details, className }) => {
       role="alert"
       aria-live={variant === 'error' ? 'assertive' : 'polite'}
       className={clsx(
-        'text-sm px-3 py-2.5 rounded-md border wrap-break-words',
+        'text-sm px-3.5 py-3 rounded-lg border',
         VARIANTS[variant],
         className,
       )}
     >
-      <p>{children}</p>
+      <p className="font-medium">{children}</p>
       {details && details.length > 0 && (
-        <ul className="mt-1.5 list-disc list-inside text-xs">
+        <ul className="mt-2 list-disc list-inside text-xs opacity-80">
           {details.map((detail, i) => (
             <li key={i}>{detail}</li>
           ))}
