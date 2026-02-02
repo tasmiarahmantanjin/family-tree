@@ -10,8 +10,9 @@ export const createPersonSchema = z.object({
     .max(255, 'Name must be less than 255 characters'),
   dateOfBirth: z
     .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format')
     .refine((val) => !Number.isNaN(Date.parse(val)), {
-      message: 'Invalid date format',
+      message: 'Invalid date',
     })
     .refine(
       (val) => {

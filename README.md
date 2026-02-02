@@ -136,12 +136,12 @@ GET /api/v1/people
   "data": [
     {
       "id": 1,
-      "name": "John Doe",
+      "name": "Shakib Al Hasan",
       "dateOfBirth": "1950-01-15"
     },
     {
       "id": 2,
-      "name": "Jane Doe",
+      "name": "Tamim Iqbal",
       "dateOfBirth": "1980-03-20"
     }
   ]
@@ -160,21 +160,21 @@ Content-Type: application/json
 }
 ```
 
-**Success (201):**
+**Response (201):**
 ```json
 {
   "data": {
-    "id": 1,
-    "name": "John Doe",
+    "id": 5,
+    "name": "Evan Rahman",
     "dateOfBirth": "1950-01-15",
     "placeOfBirth": "New York",
-    "createdAt": "2024-01-15T10:30:00.000Z",
-    "updatedAt": "2024-01-15T10:30:00.000Z"
+    "updatedAt": "2026-02-02T20:15:28.880Z",
+    "createdAt": "2026-02-02T20:15:28.880Z"
   }
 }
 ```
 
-**Error (400):**
+**Response (400):**
 ```json
 {
   "error": "Validation failed",
@@ -188,6 +188,20 @@ PUT /api/v1/people/1
 Content-Type: application/json
 
 { "name": "John Smith" }
+```
+
+**Response (200):**
+```json
+{
+  "data": {
+    "id": 5,
+    "name": "Tasmia Rahman",
+    "dateOfBirth": "2026-01-28",
+    "placeOfBirth": "Dhaka",
+    "createdAt": "2026-02-02T20:15:28.880Z",
+    "updatedAt": "2026-02-02T20:18:43.796Z"
+  }
+}
 ```
 
 #### Delete Person
@@ -220,14 +234,20 @@ GET /api/v1/relationships/tree
       "name": "John Doe",
       "dateOfBirth": "1950-01-15",
       "placeOfBirth": "New York",
-      "parents": []
+      "parents": [],
+      "generationLevel": 0,
+      "ancestorIds": [],
+      "descendantIds": [2]
     },
     {
       "id": 2,
       "name": "Jane Doe",
       "dateOfBirth": "1980-03-20",
       "placeOfBirth": "Boston",
-      "parents": [{ "id": 1 }]
+      "parents": [{ "id": 1 }],
+      "generationLevel": 1,
+      "ancestorIds": [1],
+      "descendantIds": []
     }
   ]
 }
@@ -241,12 +261,12 @@ Content-Type: application/json
 { "parentId": 1, "childId": 2 }
 ```
 
-**Success (201):**
+**Response (201):**
 ```json
 { "data": { "id": 1, "parentId": 1, "childId": 2 } }
 ```
 
-**Errors (400):**
+**Response (400):**
 ```json
 { "error": "Parent must be at least 15 years older than child. Current age difference: 10.5 years." }
 { "error": "A person can have at most 2 parents" }
@@ -286,4 +306,5 @@ Content-Type: application/json
 ## Tech Stack
 
 **Backend:** Node.js, Express, TypeScript, Sequelize, SQLite, Zod, Jest
+
 **Frontend:** Next.js 15, TypeScript, TanStack Query, react-hook-form, Tailwind CSS v4, Playwright
