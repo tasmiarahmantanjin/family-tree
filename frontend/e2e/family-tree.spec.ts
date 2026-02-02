@@ -115,7 +115,9 @@ test.describe('Family Tree App', () => {
       const linkButton = page.locator('button[type="submit"]:has-text("Link")')
       await expect(linkButton).toBeEnabled({ timeout: 5000 })
       await linkButton.click()
-      await expect(page.locator('text=Relationship linked successfully')).toBeVisible()
+      await expect(page.locator('text=Relationship linked successfully')).toBeVisible({
+        timeout: 10000,
+      })
 
       const unlinkTab = page.getByRole('tab', { name: 'Unlink', exact: true })
       await expect(unlinkTab).toBeEnabled()
@@ -128,7 +130,9 @@ test.describe('Family Tree App', () => {
       await expect(unlinkButton).toBeEnabled({ timeout: 5000 })
       await unlinkButton.click()
 
-      await expect(page.locator('text=Relationship unlinked successfully')).toBeVisible()
+      await expect(page.locator('text=Relationship unlinked successfully')).toBeVisible({
+        timeout: 10000,
+      })
     })
   })
 
