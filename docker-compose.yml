@@ -6,7 +6,7 @@ services:
     volumes:
       - ./backend/src:/app/src
       - backend-data:/app/data
-    command: npm run dev
+    command: npx ts-node-dev --respawn --transpile-only --poll src/index.ts
     environment:
       - NODE_ENV=development
 
