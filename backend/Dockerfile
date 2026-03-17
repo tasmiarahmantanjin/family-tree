@@ -9,8 +9,6 @@ RUN npm ci
 
 COPY . .
 
-RUN mkdir -p data
-
 EXPOSE 3001
 
 

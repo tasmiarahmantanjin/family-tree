@@ -5,10 +5,9 @@ services:
       - "3001:3001"
     volumes:
       - ./backend/src:/app/src
-      - backend-data:/app/data
     command: npx ts-node-dev --respawn --transpile-only --poll src/index.ts
-    environment:
-      - NODE_ENV=development
+    env_file:
+      - ./backend/.env
 
   frontend:
     build:
@@ -25,6 +24,3 @@ services:
       - WATCHPACK_POLLING=true
     depends_on:
       - backend
-
-volumes:
-  backend-data:
