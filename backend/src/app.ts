@@ -21,9 +21,13 @@ app.get('/health/ready', async (_req, res) => {
   }
 })
 
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000')
+  .split(',')
+  .map((url) => url.trim())
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: allowedOrigins,
     credentials: true,
   }),
 )
