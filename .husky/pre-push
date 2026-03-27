@@ -1,0 +1,17 @@
+echo "Running pre-push checks..."
+
+echo "-- Backend: build"
+cd backend && npm run build || exit 1
+
+echo "-- Backend: tests"
+npm test || exit 1
+
+cd ..
+
+echo "-- Frontend: lint"
+cd frontend && npm run lint || exit 1
+
+echo "-- Frontend: build"
+npm run build || exit 1
+
+echo "All pre-push checks passed!"
