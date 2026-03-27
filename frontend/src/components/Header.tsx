@@ -26,9 +26,7 @@ const Header: FC = () => {
             <h1 className="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight truncate">
               Family Tree
             </h1>
-            <p className="text-slate-500 text-xs truncate">
-              Build and visualize relationships
-            </p>
+            <p className="text-slate-500 text-xs truncate">Build and visualize relationships</p>
           </div>
         </div>
       </div>

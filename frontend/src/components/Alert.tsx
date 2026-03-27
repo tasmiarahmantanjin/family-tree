@@ -19,11 +19,7 @@ const Alert: FC<AlertProps> = ({ variant, children, details, className }) => {
     <div
       role="alert"
       aria-live={variant === 'error' ? 'assertive' : 'polite'}
-      className={clsx(
-        'text-sm px-3.5 py-3 rounded-lg border',
-        VARIANTS[variant],
-        className,
-      )}
+      className={clsx('text-sm px-3.5 py-3 rounded-lg border', VARIANTS[variant], className)}
     >
       <p className="font-medium">{children}</p>
       {details && details.length > 0 && (
