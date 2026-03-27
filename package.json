@@ -1,0 +1,12 @@
+{
+  "name": "family-tree",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A full-stack application for building and visualizing family trees with parent-child relationship validation.",
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
