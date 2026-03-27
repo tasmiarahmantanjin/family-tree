@@ -6,6 +6,7 @@ import sequelize from './config/database'
 import peopleRoutes from './routes/people'
 import relationshipRoutes from './routes/relationships'
 import { errorHandler } from './middleware/errorHandler'
+import { requestLogger } from './middleware/requestLogger'
 
 const app = express()
 
@@ -53,6 +54,8 @@ app.use(
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use(requestLogger)
 
 app.use('/api/v1/people', peopleRoutes)
 app.use('/api/v1/relationships', relationshipRoutes)
