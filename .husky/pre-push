@@ -11,6 +11,9 @@ cd ..
 echo "-- Frontend: lint"
 cd frontend && npm run lint || exit 1
 
+echo "-- Frontend: format check"
+npm run format:check || exit 1
+
 echo "-- Frontend: build"
 npm run build || exit 1
 
