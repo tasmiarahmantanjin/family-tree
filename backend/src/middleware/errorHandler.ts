@@ -35,7 +35,7 @@ export const errorHandler = (
   _next: NextFunction,
 ): void => {
   if (err instanceof ZodError) {
-    const details = err.errors.map(({ path, message }) => `${path.join('.')}: ${message}`)
+    const details = err.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`)
     res.status(StatusCode.BAD_REQUEST).json({ error: 'Validation failed', details })
     return
   }

@@ -1,6 +1,8 @@
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      target: builder
     ports:
       - "3001:3001"
     volumes:
@@ -12,13 +14,14 @@ services:
   frontend:
     build:
       context: ./frontend
+      target: builder
       args:
         NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
     ports:
       - "3000:3000"
     volumes:
       - ./frontend/src:/app/src
-    command: npm run dev
+    command: npx next dev
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
