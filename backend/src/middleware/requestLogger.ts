@@ -7,11 +7,9 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction): 
     const log = {
       timestamp: new Date().toISOString(),
       method: req.method,
-      path: req.originalUrl,
+      path: req.path,
       status: res.statusCode,
       duration_ms: Date.now() - start,
-      ip: req.ip,
-      user_agent: req.get('user-agent'),
     }
 
     if (res.statusCode >= 400) {
