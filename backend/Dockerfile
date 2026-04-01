@@ -16,7 +16,7 @@ FROM node:24-alpine
 
 RUN apk update && apk upgrade --no-cache
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN addgroup -S -g 100 appgroup && adduser -S -u 100 -G appgroup appuser
 
 WORKDIR /app
 
