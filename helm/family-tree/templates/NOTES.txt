@@ -1,0 +1,11 @@
+Family Tree backend deployed!
+
+  App URL: https://{{ .Values.ingress.host }}
+  Health:  https://{{ .Values.ingress.host }}/health
+  API:     https://{{ .Values.ingress.host }}/api/v1/people
+
+Useful commands:
+  kubectl get pods -l app={{ .Release.Name }}
+  kubectl logs -l app={{ .Release.Name }} --tail=50
+  helm status {{ .Release.Name }}
+  helm history {{ .Release.Name }}

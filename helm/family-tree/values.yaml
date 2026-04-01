@@ -1,0 +1,48 @@
+replicaCount: 1
+
+image:
+  repository: rahmantz/family-tree-backend
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3001
+
+ingress:
+  enabled: true
+  className: traefik
+  host: api.trlab.dev
+  tls:
+    enabled: true
+    secretName: family-tree-tls
+    clusterIssuer: letsencrypt-prod
+
+env:
+  NODE_ENV: production
+  PORT: "3001"
+  DATABASE_SSL: "true"
+  FRONTEND_URL: "https://app.trlab.dev,https://family-tree-eight-ashen.vercel.app"
+
+secrets:
+  existingSecret: family-tree-secrets
+  databaseUrlKey: DATABASE_URL
+
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+
+healthcheck:
+  liveness:
+    path: /health
+    initialDelaySeconds: 10
+    periodSeconds: 30
+  readiness:
+    path: /health/ready
+    initialDelaySeconds: 5
+    periodSeconds: 10

@@ -135,9 +135,9 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            kubectl set image deployment/family-tree \
-              family-tree=${{ secrets.DOCKER_USERNAME }}/family-tree-backend:${{ github.sha }}
-            kubectl rollout status deployment/family-tree --timeout=120s
+            helm upgrade family-tree ~/helm/family-tree \
+              --set image.tag=${{ github.sha }} \
+              --wait --timeout 120s
 
       - name: Verify deployment
         run: |
