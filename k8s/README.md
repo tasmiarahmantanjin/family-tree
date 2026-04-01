@@ -144,6 +144,64 @@ kubectl delete pod <pod-name>
 kubectl delete pods --field-selector=status.phase=Failed
 ```
 
+## Helm
+
+```bash
+# List installed releases
+helm list
+
+# Check release status
+helm status family-tree
+
+# View release history (revisions)
+helm history family-tree
+
+# Install chart (first time)
+helm install family-tree ~/helm/family-tree --namespace default
+
+# Upgrade with new image tag
+helm upgrade family-tree ~/helm/family-tree --set image.tag=<sha-or-tag>
+
+# Upgrade with updated values.yaml
+helm upgrade family-tree ~/helm/family-tree
+
+# Upgrade with --wait (waits for pods to be ready, auto-rollback on failure)
+helm upgrade family-tree ~/helm/family-tree --set image.tag=<tag> --wait --timeout 120s
+
+# Rollback to previous revision
+helm rollback family-tree
+
+# Rollback to specific revision
+helm rollback family-tree 1
+
+# Preview what will be applied (dry run)
+helm upgrade family-tree ~/helm/family-tree --set image.tag=<tag> --dry-run
+
+# Render templates locally (debug)
+helm template family-tree ~/helm/family-tree
+
+# Show current values
+helm get values family-tree
+
+# Show all computed values (including defaults)
+helm get values family-tree --all
+
+# Show rendered manifests of current release
+helm get manifest family-tree
+
+# Uninstall release (removes all K8s resources)
+helm uninstall family-tree
+```
+
+## Syncing Helm Chart to VPS
+
+```bash
+# Copy chart from local machine to VPS
+scp -r ~/EY/family-tree/helm root@204.168.199.91:~/
+
+# After ArgoCD setup, this will be automatic
+```
+
 ## VPS Maintenance
 
 ```bash
