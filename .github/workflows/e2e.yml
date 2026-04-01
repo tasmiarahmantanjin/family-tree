@@ -26,6 +26,11 @@ jobs:
               echo "Backend is ready"
               break
             fi
+            if [ "$attempt" -eq 30 ]; then
+              echo "Backend never became ready. Container logs:"
+              docker compose -f docker-compose.e2e.yml logs backend
+              exit 1
+            fi
             echo "Attempt $attempt: backend not ready ($STATUS), waiting..."
             sleep 5
           done
