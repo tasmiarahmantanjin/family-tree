@@ -19,7 +19,7 @@ jobs:
       - name: Start services
         run: |
           docker compose -f docker-compose.e2e.yml up -d --build
-          echo "Waiting for services to be ready..."
+          echo "Waiting for backend..."
           for attempt in $(seq 1 30); do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 3 http://localhost:3001/health || true)
             if [ "$STATUS" = "200" ]; then
@@ -29,11 +29,17 @@ jobs:
             echo "Attempt $attempt: backend not ready ($STATUS), waiting..."
             sleep 5
           done
-          for attempt in $(seq 1 30); do
+          echo "Waiting for frontend..."
+          for attempt in $(seq 1 60); do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 3 http://localhost:3000 || true)
             if [ "$STATUS" = "200" ]; then
               echo "Frontend is ready"
               break
+            fi
+            if [ "$attempt" -eq 60 ]; then
+              echo "Frontend never became ready. Container logs:"
+              docker compose -f docker-compose.e2e.yml logs frontend
+              exit 1
             fi
             echo "Attempt $attempt: frontend not ready ($STATUS), waiting..."
             sleep 5
