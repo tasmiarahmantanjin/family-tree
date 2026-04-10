@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: rahmantz/family-tree-backend
-  tag: latest
+  tag: latest # Managed by CI — will be replaced with commit SHA on first push
   pullPolicy: Always
 
 service:
