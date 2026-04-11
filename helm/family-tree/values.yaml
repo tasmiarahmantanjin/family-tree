@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: rahmantz/family-tree-backend
-  tag: "14c9f6ea5128fcbb4fc1b141a3c4b60e940ac010"
+  tag: "d4d84cc4c909184b44528f58f49ad20b79c867a0"
   pullPolicy: Always
 
 service:
