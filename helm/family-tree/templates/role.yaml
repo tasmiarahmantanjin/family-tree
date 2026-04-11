@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+rules:
+  # Read own pods (useful for self-inspection)
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  # Read secrets in the same namespace
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list"]
+  # Read configmaps in the same namespace
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list"]
