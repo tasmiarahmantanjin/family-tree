@@ -1,6 +1,8 @@
 import { FC, type ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { Source_Serif_4, DM_Sans } from 'next/font/google'
+import AuthGate from '@/components/auth/AuthGate'
+import AuthProvider from '@/providers/AuthProvider'
 import QueryProvider from '@/providers/QueryProvider'
 import './globals.css'
 
@@ -29,7 +31,11 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
       <body className={`${sourceSerif.variable} ${dmSans.variable} antialiased`}>
-        <QueryProvider>{children}</QueryProvider>
+        <AuthProvider>
+          <QueryProvider>
+            <AuthGate>{children}</AuthGate>
+          </QueryProvider>
+        </AuthProvider>
       </body>
     </html>
   )

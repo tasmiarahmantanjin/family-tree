@@ -191,10 +191,45 @@ const me = asyncHandler(async (req, res) => {
   res.status(StatusCode.OK).json({ data: publicUser(user) })
 })
 
+// Test-only backdoor to seed a session without going through Google. Enabled
+// strictly when ALLOW_TEST_LOGIN === 'true' (off by default in every env,
+// including tests that exercise the real flow). E2E tests set this flag to
+// avoid needing a real Google OAuth app during CI.
+export const isTestLoginEnabled = (): boolean => process.env.ALLOW_TEST_LOGIN === 'true'
+
+const testLogin = asyncHandler(async (req, res) => {
+  if (!isTestLoginEnabled()) {
+    throw new UnauthorizedError('Test login is disabled')
+  }
+  const body = (req.body ?? {}) as { email?: unknown; name?: unknown }
+  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
+  const name = typeof body.name === 'string' && body.name.trim() ? body.name.trim() : 'Test User'
+  if (!email) {
+    throw new UnauthorizedError('email is required')
+  }
+  const providerId = `test:${email}`
+  const [user] = await User.findOrCreate({
+    where: { provider: 'google' as const, providerId },
+    defaults: {
+      provider: 'google' as const,
+      providerId,
+      email,
+      name,
+    },
+  })
+  if (!user.isActive) {
+    throw new UnauthorizedError('Account is disabled')
+  }
+  await user.update({ email, name, lastLoginAt: new Date() })
+  const session = await issueSession(user, sessionContext(req))
+  sendSession(res, session, StatusCode.OK)
+})
+
 export default {
   startGoogleOAuth,
   googleOAuthCallback,
   refresh,
   logout,
   me,
+  testLogin,
 }

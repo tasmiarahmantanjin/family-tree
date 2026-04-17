@@ -28,4 +28,10 @@ router.post('/refresh', auth.refresh)
 router.post('/logout', auth.logout)
 router.get('/me', requireAuth, auth.me)
 
+// Test-only backdoor — the handler itself is a no-op unless
+// ALLOW_TEST_LOGIN=true is set explicitly. Gating the mount here would hide
+// the route from tests that set the env var dynamically; gating inside the
+// controller keeps the route shape stable.
+router.post('/test-login', auth.testLogin)
+
 export default router
