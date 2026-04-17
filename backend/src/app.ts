@@ -1,8 +1,10 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import sequelize from './config/database'
+import authRoutes from './routes/auth'
 import peopleRoutes from './routes/people'
 import relationshipRoutes from './routes/relationships'
 import { errorHandler } from './middleware/errorHandler'
@@ -54,9 +56,11 @@ app.use(
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 app.use(requestLogger)
 
+app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/people', peopleRoutes)
 app.use('/api/v1/relationships', relationshipRoutes)
 
