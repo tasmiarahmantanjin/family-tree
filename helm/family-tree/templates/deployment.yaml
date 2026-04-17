@@ -42,6 +42,15 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secrets.existingSecret }}
                   key: {{ .Values.secrets.databaseUrlKey }}
+            {{- with .Values.secrets.authSecret }}
+            {{- range .keys }}
+            - name: {{ . }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.secrets.authSecret.existingSecret }}
+                  key: {{ . }}
+            {{- end }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: {{ .Values.healthcheck.liveness.path }}

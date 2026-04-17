@@ -24,10 +24,29 @@ env:
   PORT: "3001"
   DATABASE_SSL: "true"
   FRONTEND_URL: "https://app.trlab.dev,https://family-tree-eight-ashen.vercel.app"
+  APP_URL: "https://app.trlab.dev"
+  JWT_ACCESS_EXPIRY: "15m"
+  JWT_REFRESH_EXPIRY: "7d"
+  GOOGLE_OAUTH_REDIRECT_URI: "https://api.trlab.dev/api/v1/auth/google/callback"
+  COOKIE_DOMAIN: ".trlab.dev"
 
 secrets:
   existingSecret: family-tree-secrets
   databaseUrlKey: DATABASE_URL
+  # Each key below references a key within the `authSecret` Kubernetes Secret
+  # and maps it to an env var on the pod. Create the secret out-of-band:
+  #   kubectl create secret generic family-tree-auth-secrets \
+  #     --from-literal=JWT_ACCESS_SECRET=$(openssl rand -hex 48) \
+  #     --from-literal=OAUTH_STATE_SECRET=$(openssl rand -hex 24) \
+  #     --from-literal=GOOGLE_OAUTH_CLIENT_ID=... \
+  #     --from-literal=GOOGLE_OAUTH_CLIENT_SECRET=...
+  authSecret:
+    existingSecret: family-tree-auth-secrets
+    keys:
+      - JWT_ACCESS_SECRET
+      - OAUTH_STATE_SECRET
+      - GOOGLE_OAUTH_CLIENT_ID
+      - GOOGLE_OAUTH_CLIENT_SECRET
 
 resources:
   requests:

@@ -1,32 +1,41 @@
-import { NextFunction, Request, Response, Router } from 'express'
+import { NextFunction, Request, RequestHandler, Response, Router } from 'express'
 import rateLimit from 'express-rate-limit'
 import auth from '../controllers/auth'
 import { requireAuth } from '../middleware/authMiddleware'
 
 const router = Router()
 
-const noopLimiter = (_req: Request, _res: Response, next: NextFunction): void => next()
+const noopLimiter: RequestHandler = (_req: Request, _res: Response, next: NextFunction) => next()
 
-// Tighter than the app-level limiter; bypassed under NODE_ENV=test so integration
-// tests that exercise many auth flows against the same in-process app don't trip it.
-const authLimiter =
-  process.env.NODE_ENV === 'test'
+// Limiters are bypassed under NODE_ENV=test so integration tests don't trip
+// them when many flows run against the same in-process app.
+const inTest = process.env.NODE_ENV === 'test'
+
+const makeLimiter = (windowMs: number, max: number, message: string): RequestHandler =>
+  inTest
     ? noopLimiter
     : rateLimit({
-        windowMs: 60 * 1000,
-        max: 20,
+        windowMs,
+        max,
         standardHeaders: true,
         legacyHeaders: false,
-        message: { error: 'Too many authentication requests, please try again later' },
+        message: { error: message },
       })
 
-router.use(authLimiter)
+// OAuth start/callback are one-shot per login — keep this tight to dampen
+// brute-force against the PKCE/state cookie pairing.
+const oauthStartLimiter = makeLimiter(60 * 1000, 10, 'Too many sign-in attempts')
+// /refresh is called often (every tab, every token expiry) — be generous but
+// still bounded so a stolen cookie can't power unlimited rotations.
+const refreshLimiter = makeLimiter(60 * 1000, 60, 'Too many refresh attempts')
+// /logout and /me — moderate.
+const generalLimiter = makeLimiter(60 * 1000, 30, 'Too many authentication requests')
 
-router.get('/google', auth.startGoogleOAuth)
-router.get('/google/callback', auth.googleOAuthCallback)
-router.post('/refresh', auth.refresh)
-router.post('/logout', auth.logout)
-router.get('/me', requireAuth, auth.me)
+router.get('/google', oauthStartLimiter, auth.startGoogleOAuth)
+router.get('/google/callback', oauthStartLimiter, auth.googleOAuthCallback)
+router.post('/refresh', refreshLimiter, auth.refresh)
+router.post('/logout', generalLimiter, auth.logout)
+router.get('/me', generalLimiter, requireAuth, auth.me)
 
 // Test-only backdoor — the handler itself is a no-op unless
 // ALLOW_TEST_LOGIN=true is set explicitly. Gating the mount here would hide
