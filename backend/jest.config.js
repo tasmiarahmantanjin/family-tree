@@ -8,4 +8,7 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   collectCoverageFrom: ['src/**/*.ts', '!src/**/*.d.ts', '!src/index.ts'],
   coverageDirectory: 'coverage',
+  // Tests share a single Postgres database and call sync({ force: true }),
+  // so they must run serially to avoid dropping tables out from under a peer.
+  maxWorkers: 1,
 }

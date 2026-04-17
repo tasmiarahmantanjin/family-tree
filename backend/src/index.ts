@@ -1,12 +1,14 @@
 import 'dotenv/config'
 import app from './app'
 import sequelize from './config/database'
+import { validateAuthEnv } from './config/env'
 import './models'
 
 const PORT = process.env.PORT || 3001
 
 const startServer = async (): Promise<void> => {
   try {
+    validateAuthEnv()
     await sequelize.sync()
     console.log('Database synchronized successfully')
 

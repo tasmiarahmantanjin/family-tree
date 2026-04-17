@@ -38,11 +38,47 @@ spec:
               value: "true"
             - name: FRONTEND_URL
               value: "https://app.trlab.dev,https://family-tree-eight-ashen.vercel.app"
+            - name: APP_URL
+              value: "https://app.trlab.dev"
+            - name: JWT_ACCESS_EXPIRY
+              value: "15m"
+            - name: JWT_REFRESH_EXPIRY
+              value: "7d"
+            - name: GOOGLE_OAUTH_REDIRECT_URI
+              value: "https://api.trlab.dev/api/v1/auth/google/callback"
+            - name: COOKIE_DOMAIN
+              value: ".trlab.dev"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: family-tree-secrets
                   key: DATABASE_URL
+            # Auth secrets — create once via:
+            #   kubectl create secret generic family-tree-auth-secrets \
+            #     --from-literal=JWT_ACCESS_SECRET=$(openssl rand -hex 48) \
+            #     --from-literal=OAUTH_STATE_SECRET=$(openssl rand -hex 24) \
+            #     --from-literal=GOOGLE_OAUTH_CLIENT_ID=... \
+            #     --from-literal=GOOGLE_OAUTH_CLIENT_SECRET=...
+            - name: JWT_ACCESS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: family-tree-auth-secrets
+                  key: JWT_ACCESS_SECRET
+            - name: OAUTH_STATE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: family-tree-auth-secrets
+                  key: OAUTH_STATE_SECRET
+            - name: GOOGLE_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: family-tree-auth-secrets
+                  key: GOOGLE_OAUTH_CLIENT_ID
+            - name: GOOGLE_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: family-tree-auth-secrets
+                  key: GOOGLE_OAUTH_CLIENT_SECRET
           livenessProbe:
             httpGet:
               path: /health

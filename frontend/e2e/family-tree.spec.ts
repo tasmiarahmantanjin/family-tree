@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test'
+import { loginViaBackdoor, seedAuthenticatedPage } from './helpers/auth'
 
 const selectOptionByText = async (page: Page, selectId: string, text: string) => {
   const select = page.locator(`select#${selectId}`)
@@ -44,6 +45,8 @@ const linkParentChild = async (page: Page, parentName: string, childName: string
 
 test.describe('Family Tree App', () => {
   test.beforeEach(async ({ page }) => {
+    const session = await loginViaBackdoor('family-tree-e2e@example.com', 'Family Tree E2E')
+    await seedAuthenticatedPage(page, session)
     await page.goto('/')
   })
 
