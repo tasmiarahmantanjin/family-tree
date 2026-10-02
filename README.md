@@ -2,6 +2,8 @@
 
 A full-stack application for building and visualizing family trees with parent-child relationship validation.
 
+**Live:** [app.trlab.dev](https://app.trlab.dev). Production deployment (Vercel, Render, Aiven, Cloudflare) is documented in [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ---
 
 ## How to Run Locally

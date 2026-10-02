@@ -1,5 +1,8 @@
 # Kubernetes Commands Reference
 
+> **Not in use.** Production moved to Render in October 2026 and the K3s VPS has been
+> deleted. This file is kept as a learning reference. See [DEPLOYMENT.md](../DEPLOYMENT.md).
+
 ## Cluster Status
 
 ```bash
